@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import './screens/movie_detail_screen.dart';
 import './providers/movies.dart';
 import './screens/movies_screen.dart';
 
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (ctx) => MoviesScreen(),
+          MovieDetailScreen.routeName: (ctx) => MovieDetailScreen(),
         },
       ),
     );

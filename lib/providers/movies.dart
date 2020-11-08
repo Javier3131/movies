@@ -59,18 +59,16 @@ class Movies extends ChangeNotifier {
     return [..._movies];
   }
 
+  Movie findById(int id) {
+    return movies.firstWhere((movie) => movie.id == id);
+  }
+
   Future<void> fectchAndSetMovies() async {
     final url =
         'https://yts.mx/api/v2/list_movies.json?limit=20&sort_by=download_count';
 
     try {
       final List<Movie> loadedMovies = [];
-      // final response = await http.get(url);
-      // var jsonresponse = jsonDecode(response.body)['data']['movies'] as List;
-      // jsonresponse.forEach((movieData) {
-      //   print(movieData);
-      //   Movie m = Movie.fromJson(movieData);
-      // });
 
       final response = await http.get(url);
       final extratedData = json.decode(response.body) as Map<String, dynamic>;
@@ -78,35 +76,13 @@ class Movies extends ChangeNotifier {
         return;
       }
 
-      // print(extratedData['data']);
       var movies = jsonDecode(response.body)['data']['movies'] as List;
       movies.forEach((movieData) {
-        // print(movieData);
         Movie m = Movie.fromJson(movieData);
         loadedMovies.add(m);
       });
 
-      // extratedData['data']['movies'].forEach((key, value) {
-      //   final mealData = value;
-      //   loadedMovies.add(Movie(
-      //     id: mealData['id'],
-      //     title: mealData['title'],
-      //     title_english: mealData['title_english'],
-      //     title_long: mealData['title_long'],
-      //     year: mealData['year'],
-      //     runtime: mealData['runtime'],
-      //     imdb_code: mealData['imdb_code'],
-      //     url: mealData['url'],
-      //     // genres: mealData['genres'],
-      //     summary: mealData['summary'],
-      //     medium_cover_image: mealData['medium_cover_image'],
-      //     background_image: mealData['background_image'],
-      //     date_uploaded: mealData['date_uploaded'],
-      //   ));
-      // });
-
       _movies = loadedMovies;
-      // _movies = [];
       notifyListeners();
     } catch (e) {
       throw e;

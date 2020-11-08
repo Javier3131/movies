@@ -11,28 +11,10 @@ class MoviesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final moviesData = Provider.of<Movies>(context, listen: false);
-    final movies = moviesData.movies;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Movies'),
       ),
-      // body: GridView.builder(
-      //   padding: const EdgeInsets.all(25),
-      //   itemCount: movies.length,
-      //   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-      //     maxCrossAxisExtent: 200,
-      //     crossAxisSpacing: 20,
-      //     mainAxisSpacing: 20,
-      //     childAspectRatio: 0.7,
-      //   ),
-      //   itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-      //     // create: (ctx) => products[i],
-      //     value: movies[i],
-      //     child: MovieItem(),
-      //   ),
-      // ),
       body: FutureBuilder(
         future: _refreshMovies(context),
         builder: (ctx, snapshot) =>
@@ -42,33 +24,20 @@ class MoviesScreen extends StatelessWidget {
                   )
                 : RefreshIndicator(
                     onRefresh: () => _refreshMovies(context),
-                    child: SafeArea(
-                      child: Material(
-                        color: Colors.transparent,
-                        child: DefaultTextStyle(
-                          style: TextStyle(color: Colors.grey[100]),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Consumer<Movies>(
-                              builder: (ctx, mealsData, _) => GridView.builder(
-                                gridDelegate:
-                                    SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 200,
-                                  crossAxisSpacing: 20,
-                                  mainAxisSpacing: 20,
-                                  childAspectRatio: 0.7,
-                                ),
-                                padding: const EdgeInsets.all(25),
-                                itemCount: movies.length,
-                                itemBuilder: (ctx, i) =>
-                                    ChangeNotifierProvider.value(
-                                  // create: (ctx) => products[i],
-                                  value: movies[i],
-                                  child: MovieItem(),
-                                ),
-                              ),
-                            ),
-                          ),
+                    child: Consumer<Movies>(
+                      builder: (ctx, moviesData, _) => GridView.builder(
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
+                          childAspectRatio: 0.7,
+                        ),
+                        padding: const EdgeInsets.all(25),
+                        itemCount: moviesData.movies.length,
+                        itemBuilder: (ctx, i) => MovieItem(
+                          id: moviesData.movies[i].id,
+                          title: moviesData.movies[i].title,
+                          imageUrl: moviesData.movies[i].medium_cover_image,
                         ),
                       ),
                     ),
