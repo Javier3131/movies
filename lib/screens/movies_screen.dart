@@ -37,7 +37,7 @@ class MoviesScreen extends StatelessWidget {
                         itemBuilder: (ctx, i) => MovieItem(
                           id: moviesData.movies[i].id,
                           title: moviesData.movies[i].title,
-                          imageUrl: moviesData.movies[i].medium_cover_image,
+                          imageUrl: moviesData.movies[i].large_cover_image,
                         ),
                       ),
                     ),

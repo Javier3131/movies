@@ -11,11 +11,13 @@ class Movie extends ChangeNotifier {
   final int runtime;
   final String imdb_code;
   final String url;
-  // final List<String> genres;
+  final List<dynamic> genres;
   final String summary;
   final String medium_cover_image;
+  final String large_cover_image;
   final String background_image;
   final DateTime date_uploaded;
+  final String rating;
 
   Movie({
     this.id,
@@ -26,11 +28,13 @@ class Movie extends ChangeNotifier {
     this.runtime,
     this.imdb_code,
     this.url,
-    // this.genres,
+    this.genres,
     this.summary,
     this.medium_cover_image,
+    this.large_cover_image,
     this.background_image,
     this.date_uploaded,
+    this.rating,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
@@ -43,11 +47,13 @@ class Movie extends ChangeNotifier {
       runtime: json['runtime'],
       imdb_code: json['imdb_code'],
       url: json['url'],
-      // genres: json['genres'],
+      genres: json['genres'] as List<dynamic>,
       summary: json['summary'],
       medium_cover_image: json['medium_cover_image'],
+      large_cover_image: json['large_cover_image'],
       background_image: json['background_image'],
       date_uploaded: DateTime.parse(json['date_uploaded']),
+      rating: json['rating'].toString(),
     );
   }
 }

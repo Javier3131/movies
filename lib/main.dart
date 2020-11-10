@@ -22,7 +22,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: 'Arimo',
         ),
+        darkTheme: ThemeData.dark(),
         initialRoute: '/',
         routes: {
           '/': (ctx) => MoviesScreen(),
