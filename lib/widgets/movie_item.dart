@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../screens/movie_detail_screen.dart';
 import '../providers/movies.dart';
@@ -16,15 +17,17 @@ class MovieItem extends StatelessWidget {
     return GridTile(
       child: GestureDetector(
         onTap: () {
-          final Movie movie = Provider.of<Movies>(
-            context,
-            listen: false,
-          ).findById(id);
+          final Movie movie =
+              Provider.of<Movies>(context, listen: false).findById(id);
 
-          Navigator.of(context).pushNamed(
-            MovieDetailScreen.routeName,
-            arguments: movie,
-          );
+          // final movieDetail = await Provider.of<Movies>(context, listen: false)
+          //     .getMovieDetail(id);
+
+          Navigator.of(context)
+              .pushNamed(MovieDetailScreen.routeName, arguments: {
+            'movie': movie,
+            // 'movieDetail': movieDetail,
+          });
         },
         child: ClipRRect(
           borderRadius: BorderRadius.only(
@@ -33,7 +36,21 @@ class MovieItem extends StatelessWidget {
           ),
           child: Hero(
             tag: id,
-            child: Image.network(imageUrl),
+            child: Stack(
+              children: [
+                Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                ),
+                Center(
+                  child: FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage,
+                    image: imageUrl,
+                  ),
+                ),
+              ],
+            ),
           ),
           // child: Image.network(imageUrl),
         ),

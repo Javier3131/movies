@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/movie_item.dart';
 import '../providers/movies.dart';
+import '../screens/movie_search_screen.dart';
 
 class MoviesScreen extends StatelessWidget {
   Future<void> _refreshMovies(BuildContext context) async {
@@ -14,6 +15,15 @@ class MoviesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Movies'),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                final moviesData = Provider.of<Movies>(context, listen: false);
+                moviesData.clearSearchResults();
+                Navigator.of(context).pushNamed(MovieSearchScreen.routeName);
+              })
+        ],
       ),
       body: FutureBuilder(
         future: _refreshMovies(context),
