@@ -30,12 +30,14 @@ class MovieDetail {
   String large_screenshot_image2;
   String large_screenshot_image3;
   List<Cast> cast;
+  List<String> screenshots;
 
   MovieDetail({
     this.large_screenshot_image1,
     this.large_screenshot_image2,
     this.large_screenshot_image3,
     this.cast,
+    this.screenshots,
   });
 }
 
@@ -98,6 +100,7 @@ class Movie extends ChangeNotifier {
 class Movies extends ChangeNotifier {
   List<Movie> _movies = [];
   List<Movie> _searchResults = [];
+  MovieDetail _movieDetail;
 
   List<Movie> get movies {
     return [..._movies];
@@ -105,6 +108,10 @@ class Movies extends ChangeNotifier {
 
   List<Movie> get searchResults {
     return [..._searchResults];
+  }
+
+  MovieDetail get movieDetail {
+    return _movieDetail;
   }
 
   void clearSearchResults() {
@@ -147,7 +154,7 @@ class Movies extends ChangeNotifier {
     }
   }
 
-  Future<MovieDetail> getMovieDetail(int movieId) async {
+  Future<void> getMovieDetail(int movieId) async {
     final url =
         'https://yts.mx/api/v2/movie_details.json?movie_id=$movieId&with_images=true&with_cast=true';
 
@@ -155,12 +162,12 @@ class Movies extends ChangeNotifier {
       final response = await http.get(url);
       final extratedData = json.decode(response.body) as Map<String, dynamic>;
       if (extratedData == null) {
-        return null;
+        return;
       }
 
       var cast = jsonDecode(response.body)['data']['movie']['cast'] as List;
       if (cast == null) {
-        return null;
+        return;
       }
 
       List<Cast> responseCast = [];
@@ -169,15 +176,23 @@ class Movies extends ChangeNotifier {
         responseCast.add(c);
       });
 
-      return MovieDetail(
+      final img1 =
+          extratedData['data']['movie']['large_screenshot_image1'] as String;
+      final img2 =
+          extratedData['data']['movie']['large_screenshot_image2'] as String;
+      final img3 =
+          extratedData['data']['movie']['large_screenshot_image3'] as String;
+      final imgsList = [img1, img2, img3];
+
+      final movieDetail = MovieDetail(
         cast: responseCast,
-        large_screenshot_image1: extratedData['data']['movie']
-            ['large_screenshot_image1'],
-        large_screenshot_image2: extratedData['data']['movie']
-            ['large_screenshot_image2'],
-        large_screenshot_image3: extratedData['data']['movie']
-            ['large_screenshot_image3'],
+        large_screenshot_image1: img1,
+        large_screenshot_image2: img2,
+        large_screenshot_image3: img3,
+        screenshots: imgsList,
       );
+      _movieDetail = movieDetail;
+      notifyListeners();
     } catch (e) {
       throw e;
     }

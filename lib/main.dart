@@ -5,6 +5,7 @@ import './screens/movie_detail_screen.dart';
 import './providers/movies.dart';
 import './screens/movies_screen.dart';
 import './screens/movie_search_screen.dart';
+import './screens/image_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
           '/': (ctx) => MoviesScreen(),
           MovieDetailScreen.routeName: (ctx) => MovieDetailScreen(),
           MovieSearchScreen.routeName: (ctx) => MovieSearchScreen(),
+          ImageView.routeName: (ctx) => ImageView(),
         },
       ),
     );
