@@ -19,15 +19,8 @@ class MovieItem extends StatelessWidget {
         onTap: () {
           final Movie movie =
               Provider.of<Movies>(context, listen: false).findById(id);
-
-          // final movieDetail = await Provider.of<Movies>(context, listen: false)
-          //     .getMovieDetail(id);
-
-          Navigator.of(context)
-              .pushNamed(MovieDetailScreen.routeName, arguments: {
-            'movie': movie,
-            // 'movieDetail': movieDetail,
-          });
+          Navigator.of(context).pushNamed(MovieDetailScreen.routeName,
+              arguments: {'movie': movie});
         },
         child: ClipRRect(
           borderRadius: BorderRadius.only(
@@ -55,9 +48,6 @@ class MovieItem extends StatelessWidget {
           // child: Image.network(imageUrl),
         ),
       ),
-      // footer: GridTileBar(
-      //   title: Text(title),
-      // ),
     );
   }
 }

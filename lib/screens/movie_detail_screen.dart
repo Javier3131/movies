@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movies/screens/image_view.dart';
-// import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
-import 'package:photo_view/photo_view.dart';
 
+import '../screens/image_view.dart';
+import '../widgets/cast_item.dart';
 import '../providers/movies.dart';
 
 class MovieDetailScreen extends StatelessWidget {
@@ -18,11 +17,6 @@ class MovieDetailScreen extends StatelessWidget {
     final args =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final movie = args['movie'] as Movie;
-    // final movieDetail = args['movieDetail'] as MovieDetail;
-
-    // final Movie movie = ModalRoute.of(context).settings.arguments as Movie;
-    // final moviesData = Provider.of<Movies>(context);
-    // final movieProv = moviesData.movies;
 
     Widget _genres() {
       return Padding(
@@ -105,6 +99,23 @@ class MovieDetailScreen extends StatelessWidget {
                                   _imgView(moviesData
                                       .movieDetail.large_screenshot_image3),
                                 ],
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: ListView.builder(
+                                // padding: const EdgeInsets.all(5),
+                                itemCount: moviesData.movieDetail.cast.length,
+                                itemBuilder: (ctx, i) => CastItem(
+                                  name: moviesData.movieDetail.cast[i].name,
+                                  imdb_code:
+                                      moviesData.movieDetail.cast[i].imdb_code,
+                                  character_name: moviesData
+                                      .movieDetail.cast[i].character_name,
+                                  image_url: moviesData
+                                      .movieDetail.cast[i].url_small_image,
+                                ),
                               ),
                             ),
                           ],

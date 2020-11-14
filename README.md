@@ -16,7 +16,7 @@ dependencies:
 
 ## Screenshots 
 
-|                      |                      |
+| Movie List           | Search Movies        |
 | -------------------- | -------------------- |
 | ![](movie_app_1.gif) | ![](movie_app_2.gif) |
 
