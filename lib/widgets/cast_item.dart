@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import 'package:movies/providers/movies.dart';
-
 class CastItem extends StatelessWidget {
   final String name;
   final String imdb_code;
@@ -27,7 +25,10 @@ class CastItem extends StatelessWidget {
               ),
       ),
       title: Text(name),
-      subtitle: Text(character_name),
+      subtitle: Text(
+        character_name,
+        style: TextStyle(color: const Color(0xFF8f888e)),
+      ),
     );
   }
 }

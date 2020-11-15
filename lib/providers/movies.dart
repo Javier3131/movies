@@ -25,7 +25,7 @@ class Cast {
   }
 }
 
-class MovieDetail {
+class MovieDetail extends ChangeNotifier {
   String large_screenshot_image1;
   String large_screenshot_image2;
   String large_screenshot_image3;
@@ -101,6 +101,7 @@ class Movies extends ChangeNotifier {
   List<Movie> _movies = [];
   List<Movie> _searchResults = [];
   MovieDetail _movieDetail;
+  List<Movie> _moviesSuggested = [];
 
   List<Movie> get movies {
     return [..._movies];
@@ -114,6 +115,10 @@ class Movies extends ChangeNotifier {
     return _movieDetail;
   }
 
+  List<Movie> get movieSuggested {
+    return [..._moviesSuggested];
+  }
+
   void clearSearchResults() {
     _searchResults = [];
     notifyListeners();
@@ -121,7 +126,9 @@ class Movies extends ChangeNotifier {
 
   Movie findById(int id) {
     var movie = movies.firstWhere((movie) => movie.id == id, orElse: () {
-      return searchResults.firstWhere((movie) => movie.id == id);
+      return searchResults.firstWhere((movie) => movie.id == id, orElse: () {
+        return movieSuggested.firstWhere((movie) => movie.id == id);
+      });
     });
 
     return movie;
@@ -165,16 +172,15 @@ class Movies extends ChangeNotifier {
         return;
       }
 
-      var cast = jsonDecode(response.body)['data']['movie']['cast'] as List;
-      if (cast == null) {
-        return;
-      }
-
       List<Cast> responseCast = [];
-      cast.forEach((castData) {
-        Cast c = Cast.fromJson(castData);
-        responseCast.add(c);
-      });
+
+      var cast = jsonDecode(response.body)['data']['movie']['cast'] as List;
+      if (cast != null) {
+        cast.forEach((castData) {
+          Cast c = Cast.fromJson(castData);
+          responseCast.add(c);
+        });
+      }
 
       final img1 =
           extratedData['data']['movie']['large_screenshot_image1'] as String;
@@ -222,6 +228,36 @@ class Movies extends ChangeNotifier {
       });
 
       _searchResults = responseMovies;
+      notifyListeners();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> getMovieSuggestions(int movieId) async {
+    final url =
+        'https://yts.mx/api/v2/movie_suggestions.json?movie_id=$movieId';
+
+    try {
+      final List<Movie> responseMovies = [];
+      clearSearchResults();
+
+      final response = await http.get(url);
+      final extratedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extratedData == null) {
+        return;
+      }
+
+      var movies = jsonDecode(response.body)['data']['movies'] as List;
+      if (movies == null) {
+        return;
+      }
+      movies.forEach((movieData) {
+        Movie m = Movie.fromJson(movieData);
+        responseMovies.add(m);
+      });
+
+      _moviesSuggested = responseMovies;
       notifyListeners();
     } catch (e) {
       throw e;

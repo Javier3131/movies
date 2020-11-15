@@ -21,7 +21,16 @@ class MovieSearchScreen extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
-              decoration: InputDecoration(labelText: 'Movie Name...'),
+              cursorColor: Colors.green,
+              decoration: InputDecoration(
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.green),
+                ),
+                labelText: 'Movie Name...',
+                labelStyle: Theme.of(context).textTheme.bodyText1,
+                // .merge(TextStyle(color: Colors.green)),
+                // sty
+              ),
               keyboardType: TextInputType.url,
               textInputAction: TextInputAction.done,
               controller: _movieNameController,

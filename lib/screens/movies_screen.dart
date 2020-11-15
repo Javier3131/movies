@@ -14,10 +14,15 @@ class MoviesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Movies'),
+        title: Text(
+          'Movies',
+        ),
         actions: [
           IconButton(
-              icon: Icon(Icons.search),
+              icon: Icon(
+                Icons.search,
+                // color: Utils().createMaterialColor(Color(0xFF6ac044)),
+              ),
               onPressed: () {
                 final moviesData = Provider.of<Movies>(context, listen: false);
                 moviesData.clearSearchResults();
