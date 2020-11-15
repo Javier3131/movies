@@ -8,6 +8,7 @@ import '../widgets/movie_item.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   static const routeName = '/movie-detail';
+  MovieDetailScreen({Key key}) : super(key: key);
 
   Future<void> _getMovieDetail(BuildContext context, int movieId) async {
     await Provider.of<Movies>(context, listen: false).getMovieDetail(movieId);
@@ -17,6 +18,7 @@ class MovieDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('build in movie detail screen');
     final args =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final movie = args['movie'] as Movie;

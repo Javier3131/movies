@@ -19,8 +19,23 @@ class MovieItem extends StatelessWidget {
         onTap: () {
           final Movie movie =
               Provider.of<Movies>(context, listen: false).findById(id);
+
+          Provider.of<Movies>(context, listen: false).addMovieIdToList(id);
+
           Navigator.of(context).pushNamed(MovieDetailScreen.routeName,
-              arguments: {'movie': movie});
+              arguments: {'movie': movie}).then((value) {
+            Provider.of<Movies>(context, listen: false).popMovieIdFromList();
+
+            int previousMovieId =
+                Provider.of<Movies>(context, listen: false).previousMovieId;
+
+            if (previousMovieId == 0) return;
+
+            Provider.of<Movies>(context, listen: false)
+                .getMovieDetail(previousMovieId);
+            Provider.of<Movies>(context, listen: false)
+                .getMovieSuggestions(previousMovieId);
+          });
         },
         child: ClipRRect(
           borderRadius: BorderRadius.only(

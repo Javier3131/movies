@@ -102,6 +102,7 @@ class Movies extends ChangeNotifier {
   List<Movie> _searchResults = [];
   MovieDetail _movieDetail;
   List<Movie> _moviesSuggested = [];
+  List<int> _moviesIdList = [];
 
   List<Movie> get movies {
     return [..._movies];
@@ -117,6 +118,27 @@ class Movies extends ChangeNotifier {
 
   List<Movie> get movieSuggested {
     return [..._moviesSuggested];
+  }
+
+  List<int> get moviesIdList {
+    return [...moviesIdList];
+  }
+
+  int get previousMovieId {
+    if (_moviesIdList.length > 0) {
+      return _moviesIdList[_moviesIdList.length - 1];
+    }
+    return 0;
+  }
+
+  void addMovieIdToList(int movieId) {
+    _moviesIdList.add(movieId);
+  }
+
+  void popMovieIdFromList() {
+    if (_moviesIdList.length > 0) {
+      _moviesIdList.removeLast();
+    }
   }
 
   void clearSearchResults() {
