@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../screens/image_view.dart';
 import '../widgets/cast_item.dart';
@@ -14,6 +15,9 @@ class MovieDetailScreen extends StatelessWidget {
     await Provider.of<Movies>(context, listen: false).getMovieDetail(movieId);
     await Provider.of<Movies>(context, listen: false)
         .getMovieSuggestions(movieId);
+
+    // String videoId =
+    //     Provider.of<Movies>(context, listen: false).movieDetail.yt_trailer_code;
   }
 
   @override
@@ -92,6 +96,17 @@ class MovieDetailScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     child: Column(
                       children: [
+                        YoutubePlayer(
+                          // controller: _controller,
+                          showVideoProgressIndicator: true,
+                          controller: YoutubePlayerController(
+                              flags: YoutubePlayerFlags(
+                                autoPlay: false,
+                              ),
+                              initialVideoId:
+                                  moviesData.movieDetail.yt_trailer_code),
+                        ),
+                        SizedBox(height: 10),
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.3,

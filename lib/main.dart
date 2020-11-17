@@ -38,6 +38,8 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Movies',
+        debugShowCheckedModeBanner: false,
+        debugShowMaterialGrid: false,
         theme: ThemeData(
           primarySwatch: _blackColor,
           accentColor: _greenColor,

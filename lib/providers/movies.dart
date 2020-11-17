@@ -31,6 +31,7 @@ class MovieDetail extends ChangeNotifier {
   String large_screenshot_image3;
   List<Cast> cast;
   List<String> screenshots;
+  String yt_trailer_code;
 
   MovieDetail({
     this.large_screenshot_image1,
@@ -38,6 +39,7 @@ class MovieDetail extends ChangeNotifier {
     this.large_screenshot_image3,
     this.cast,
     this.screenshots,
+    this.yt_trailer_code,
   });
 }
 
@@ -212,12 +214,16 @@ class Movies extends ChangeNotifier {
           extratedData['data']['movie']['large_screenshot_image3'] as String;
       final imgsList = [img1, img2, img3];
 
+      final videoCode =
+          extratedData['data']['movie']['yt_trailer_code'] as String;
+
       final movieDetail = MovieDetail(
         cast: responseCast,
         large_screenshot_image1: img1,
         large_screenshot_image2: img2,
         large_screenshot_image3: img3,
         screenshots: imgsList,
+        yt_trailer_code: videoCode,
       );
       _movieDetail = movieDetail;
       notifyListeners();
