@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:transparent_image/transparent_image.dart';
+// import 'package:transparent_image/transparent_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../screens/movie_detail_screen.dart';
 import '../providers/movies.dart';
@@ -51,10 +52,25 @@ class MovieItem extends StatelessWidget {
                     strokeWidth: 2,
                   ),
                 ),
+                // Center(
+                //   child: FadeInImage.memoryNetwork(
+                //     placeholderErrorBuilder: (context, error, stackTrace) {
+                //       return Text('Image not found',
+                //           style: TextStyle(color: Colors.white));
+                //     },
+                //     imageErrorBuilder: (context, error, stackTrace) {
+                //       return Text('Image not found',
+                //           style: TextStyle(color: Colors.white));
+                //     },
+                //     placeholder: kTransparentImage,
+                //     image: imageUrl,
+                //   ),
+                // ),
                 Center(
-                  child: FadeInImage.memoryNetwork(
-                    placeholder: kTransparentImage,
-                    image: imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
               ],
